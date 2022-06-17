@@ -57,7 +57,7 @@ echo "Uptime: $Uptime"
 TIME=$(date +%s)
 
 curl --get \
-  --data-urlencode "set=nas" \
+  --data-urlencode "set=lserver" \
   --data-urlencode "name=$NAME" \
   --data-urlencode "DSM_version=" \
   --data-urlencode "CPU_temp=$CPU_TEMP" \
