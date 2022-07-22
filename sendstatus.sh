@@ -66,7 +66,6 @@ curl --get \
   --data-urlencode "set=lserver" \
   --data-urlencode "name=$NAME" \
   --data-urlencode "DSM_version=" \
-  --data-urlencode "CPU_temp=$CPU_TEMP" \
   --data-urlencode "CPU=$CPU" \
   --data-urlencode "CPU_load=$CPU_load" \
   --data-urlencode "CPU_temp=$CPU_temp" \
