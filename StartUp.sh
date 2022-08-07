@@ -4,7 +4,7 @@ source /root/settings.ini
 
 #sleep 10
 
-$SENDMAIL "NAS started" "$(date)"
+$SENDMAIL "Server started" "$(date)"
 
 bash /root/GetIP.sh
 
