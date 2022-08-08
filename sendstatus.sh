@@ -16,14 +16,20 @@ echo "CPU_load: $CPU_load"
 CPU_temp=$(sensors | awk '/Package/ {print $4}')
 echo "CPU_temp: $CPU_temp"
 
-Storage_load=$(df -h | awk '/dev\/sda1/ {print $5}')
-echo "Storage_load: $Storage_load"
-
 Memory_load=$(free -t | awk 'NR==2 {print $3/$2*100}')
 echo "Memory_load: $Memory_load"
 
-HDD1_temp=$(smartctl -A /dev/sda | awk '/^190/{print $10}')
-echo "HDD1_temp: $HDD1_temp"
+SSD1_load=$(df -h | awk '$SSD1 {print $5}')
+echo "SSD1_load: $SSD1_load"
+
+SSD1_temp=$(smartctl -A --device=sat $SSD1 | awk '/^190/{print $10}')
+echo "SSD1_temp: $SSD1_temp"
+
+SSD2_load=$(df -h | awk '$SSD2 {print $5}')
+echo "SSD2_load: $SSD2_load"
+
+SSD2_temp=$(smartctl -A --device=sat $SSD2 | awk '/^190/{print $10}')
+echo "SSD2_temp: $SSD2_temp"
 
 UPS=$(upsc ups)
 
@@ -62,21 +68,14 @@ TIME=$(date +%s)
 curl --get \
   --data-urlencode "set=lserver" \
   --data-urlencode "name=$NAME" \
-  --data-urlencode "DSM_version=" \
-  --data-urlencode "CPU_temp=$CPU_TEMP" \
   --data-urlencode "CPU=$CPU" \
   --data-urlencode "CPU_load=$CPU_load" \
   --data-urlencode "CPU_temp=$CPU_temp" \
   --data-urlencode "Storage_load=$Storage_load" \
-  --data-urlencode "SSD1_temp=" \
+  --data-urlencode "SSD1_temp=$SSD1_temp" \
   --data-urlencode "SSD1_load=" \
   --data-urlencode "SSD2_temp=" \
   --data-urlencode "SSD2_load=" \
-  --data-urlencode "HDD1_temp=$HDD1_temp" \
-  --data-urlencode "HDD1_Gsense=$HDD1_Gsense" \
-  --data-urlencode "HDD1_load=" \
-  --data-urlencode "HDD2_temp=$HDD2_temp" \
-  --data-urlencode "HDD2_Gsense=$HDD2_Gsense" \
   --data-urlencode "Memory_load=$Memory_load" \
   --data-urlencode "Uptime=$Uptime" \
   --data-urlencode "time=$TIME" \
@@ -90,4 +89,3 @@ curl --get \
   --data-urlencode "UPS_status=$UPS_status" \
   --data-urlencode "UPS_date=$UPS_date" \
 "$STATUS_URL"
-
