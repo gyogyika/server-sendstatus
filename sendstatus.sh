@@ -19,17 +19,14 @@ echo "CPU_temp: $CPU_temp"
 Memory_load=$(free -t | awk 'NR==2 {print $3/$2*100}')
 echo "Memory_load: $Memory_load"
 
-SSD1_load=$(df -h | awk '$SSD1 {print $5}')
+SSD1_load=$(df -h | awk -v pat="$SSD1" '$0~pat {print $5}')
 echo "SSD1_load: $SSD1_load"
 
-SSD1_temp=$(smartctl -A --device=sat $SSD1 | awk '/^190/{print $10}')
+SSD1_temp=$(smartctl -A --device=sat /dev/"$SSD1" | awk '/^190/{print $10}')
 echo "SSD1_temp: $SSD1_temp"
 
-SSD2_load=$(df -h | awk '$SSD2 {print $5}')
-echo "SSD2_load: $SSD2_load"
-
-SSD2_temp=$(smartctl -A --device=sat $SSD2 | awk '/^190/{print $10}')
-echo "SSD2_temp: $SSD2_temp"
+SSD1_wear_lc=$(smartctl -A --device=sat /dev/"$SSD1" | awk '/^177/{print $10}')
+echo "SSD1_wear_lc: $SSD1_wear_lc"
 
 UPS=$(upsc ups)
 
@@ -65,17 +62,21 @@ echo "Uptime: $Uptime"
 
 TIME=$(date +%s)
 
+SPEEDTEST="invalid"
+read -r SPEEDTEST < "/tmp/SPEEDTEST"
+
 curl --get \
   --data-urlencode "set=lserver" \
   --data-urlencode "name=$NAME" \
   --data-urlencode "CPU=$CPU" \
   --data-urlencode "CPU_load=$CPU_load" \
   --data-urlencode "CPU_temp=$CPU_temp" \
-  --data-urlencode "Storage_load=$Storage_load" \
   --data-urlencode "SSD1_temp=$SSD1_temp" \
-  --data-urlencode "SSD1_load=" \
+  --data-urlencode "SSD1_load=$SSD1_load" \
+  --data-urlencode "SSD1_wear_lc=$SSD1_wear_lc" \
   --data-urlencode "SSD2_temp=" \
   --data-urlencode "SSD2_load=" \
+  --data-urlencode "SSD2_wear_lc=" \
   --data-urlencode "Memory_load=$Memory_load" \
   --data-urlencode "Uptime=$Uptime" \
   --data-urlencode "time=$TIME" \
@@ -88,4 +89,5 @@ curl --get \
   --data-urlencode "UPS_voltage=$UPS_voltage" \
   --data-urlencode "UPS_status=$UPS_status" \
   --data-urlencode "UPS_date=$UPS_date" \
+  --data-urlencode "SPEEDTEST=$SPEEDTEST" \
 "$STATUS_URL"
