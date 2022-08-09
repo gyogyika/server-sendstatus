@@ -9,6 +9,8 @@
 systemctl restart crond
 systemctl restart synoscheduler
 
+service cron reload
+
 SynoCommunity
 https://packages.synocommunity.com/
 SynoCli File Tools
