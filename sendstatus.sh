@@ -83,9 +83,9 @@ curl --get \
   --data-urlencode "SSD1_temp=$SSD1_temp" \
   --data-urlencode "SSD1_load=$SSD1_load" \
   --data-urlencode "SSD1_wear_lc=$SSD1_wear_lc" \
-  --data-urlencode "SSD2_temp=" \
-  --data-urlencode "SSD2_load=" \
-  --data-urlencode "SSD2_wear_lc=" \
+  --data-urlencode "SSD2_temp=$SSD2_temp" \
+  --data-urlencode "SSD2_load=$SSD2_load" \
+  --data-urlencode "SSD2_wear_lc=$SSD2_wear_lc" \
   --data-urlencode "Memory_load=$Memory_load" \
   --data-urlencode "Uptime=$Uptime" \
   --data-urlencode "time=$TIME" \
