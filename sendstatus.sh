@@ -28,6 +28,15 @@ echo "SSD1_temp: $SSD1_temp"
 SSD1_wear_lc=$(smartctl -A --device=sat /dev/"$SSD1" | awk '/^177/{print $10}')
 echo "SSD1_wear_lc: $SSD1_wear_lc"
 
+SSD2_load=$(df -h | awk -v pat="$SSD2" '$0~pat {print $5}')
+echo "SSD2_load: $SSD2_load"
+
+SSD2_temp=$(smartctl -A --device=sat /dev/"$SSD2" | awk '/^190/{print $10}')
+echo "SSD2_temp: $SSD2_temp"
+
+SSD2_wear_lc=$(smartctl -A --device=sat /dev/"$SSD2" | awk '/^177/{print $10}')
+echo "SSD2_wear_lc: $SSD2_wear_lc"
+
 UPS=$(upsc ups)
 
 UPS_model=$(echo "$UPS" | awk '/ups.model:/{$1="";print $0}')
